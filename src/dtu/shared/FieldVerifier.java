@@ -33,21 +33,47 @@ public class FieldVerifier {
 	 * @param name the name to validate
 	 * @return true if valid, false if invalid
 	 */
+	
+	public static boolean isValidID(String id) {
+		if (id == null) return false;
+		if (id.length() == 0) return false;
+		try {
+			if (Integer.valueOf(id) >= 1 && Integer.valueOf(id) <= 99999999) return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return false;
+	}
+	
 	public static boolean isValidName(String name) {
 		if (name == null) {
 			return false;
 		}
 		if (name.length() == 0)
 			return false;
-		// max 30 karakterer
-		return name.length() <= 30;
+		// max 20 karakterer
+		return name.length() <= 20;
 	}
 	
-	public static boolean isValidAge(String age) {
-		if (age.matches("[0-9]+"))
-			// max 100 år
-			return Integer.parseInt(age) < 100 ? true : false;
-		else
-			return false;	
+	public static boolean isValidInitials(String ini) {
+		if (ini == null) return false;
+		if (ini.length() == 0) return false;
+		// max 3 characters
+		return ini.length() <= 3;
+	}
+	
+	public static boolean isValidCpr(String cpr) {
+		if (cpr == null) return false;
+		if (cpr.length() == 0) return false;
+		// must be 11 chars (CDIO oplÃ¦g siger 10? Ingen bindestreg?)
+		return cpr.length() == 11;
+	}
+	
+	public static boolean isValidPass(String pass) {
+		if (pass == null) return false;
+		if (pass.length() == 0) return false;
+		// min. 7 & max. 8 characters
+//		return pass.length() >= 7 && pass.length() <= 8;
+		return pass.length() == 7 || pass.length() == 8;
 	}
 }

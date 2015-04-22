@@ -21,7 +21,6 @@ public class EditView extends Composite {
 	VerticalPanel editPanel;
 	FlexTable t;
 	
-
 	// editing text boxes
 	TextBox idTxt;
 	TextBox nameTxt;
@@ -30,9 +29,12 @@ public class EditView extends Composite {
 	TextBox passTxt;
 
 	// valid fields - initially a field is valid
+	boolean idValid = true;
 	boolean nameValid = true;
-	boolean ageValid = true;
-
+	boolean iniValid = true;
+	boolean cprValid = true;
+	boolean passValid = true;
+	
 	int eventRowIndex;
 
 	// reference to data layer
@@ -53,10 +55,11 @@ public class EditView extends Composite {
 
 		// adjust column widths
 		t.getFlexCellFormatter().setWidth(0, 0, "50px");
-		t.getFlexCellFormatter().setWidth(0, 1, "150px");
+		t.getFlexCellFormatter().setWidth(0, 1, "170px");
 		t.getFlexCellFormatter().setWidth(0, 2, "15px");
-		t.getFlexCellFormatter().setWidth(0, 3, "150px");
-		t.getFlexCellFormatter().setWidth(0, 4, "100px");
+		t.getFlexCellFormatter().setWidth(0, 3, "100px");
+		t.getFlexCellFormatter().setWidth(0, 4, "70px");
+		
 
 		// style table
 		t.addStyleName("FlexTable");
@@ -89,10 +92,15 @@ public class EditView extends Composite {
 		
 		// text boxes
 		idTxt = new TextBox();
+		idTxt.setWidth("20px");
 		nameTxt = new TextBox();
+		nameTxt.setWidth("150px");
 		iniTxt = new TextBox();
+		iniTxt.setWidth("20px");
 		cprTxt = new TextBox();
+		cprTxt.setWidth("90px");
 		passTxt = new TextBox();
+		passTxt.setWidth("70px");
 	}
 
 	private class EditHandler implements ClickHandler {
@@ -204,7 +212,29 @@ public class EditView extends Composite {
 
 			});
 
+			
+			idTxt.addKeyUpHandler(new KeyUpHandler(){
 
+				@Override
+				public void onKeyUp(KeyUpEvent event) {
+					if (!FieldVerifier.isValidID(idTxt.getText())) {
+						idTxt.setStyleName("gwt-TextBox-invalidEntry");
+						idValid = false;
+					}
+					else {
+						idTxt.removeStyleName("gwt-TextBox-invalidEntry");
+						idValid = true;
+					}
+
+					// enable/disable ok depending on form status 
+					if (idValid&&nameValid&&iniValid&&cprValid&&passValid)
+						t.setWidget(eventRowIndex, 5, ok);
+					else
+						t.setText(eventRowIndex, 5, "ok");
+				}
+
+			});
+			
 			nameTxt.addKeyUpHandler(new KeyUpHandler(){
 
 				@Override
@@ -219,7 +249,7 @@ public class EditView extends Composite {
 					}
 
 					// enable/disable ok depending on form status 
-					if (nameValid&&ageValid)
+					if (idValid&&nameValid&&iniValid&&cprValid&&passValid)
 						t.setWidget(eventRowIndex, 5, ok);
 					else
 						t.setText(eventRowIndex, 5, "ok");				
@@ -231,23 +261,69 @@ public class EditView extends Composite {
 
 				@Override
 				public void onKeyUp(KeyUpEvent event) {
-					if (!FieldVerifier.isValidAge(iniTxt.getText())) {
+					if (!FieldVerifier.isValidInitials(iniTxt.getText())) {
 						iniTxt.setStyleName("gwt-TextBox-invalidEntry");
-						ageValid = false;
+						iniValid = false;
 					}
 					else {
 						iniTxt.removeStyleName("gwt-TextBox-invalidEntry");
-						ageValid = true;
+						iniValid = true;
 					}
 
 					// enable/disable ok depending on form status 
-					if (nameValid&&ageValid)
+					if (idValid&&nameValid&&iniValid&&cprValid&&passValid)
 						t.setWidget(eventRowIndex, 5, ok);
 					else
 						t.setText(eventRowIndex, 5, "ok");
 				}
 
 			});
+			
+			cprTxt.addKeyUpHandler(new KeyUpHandler(){
+
+				@Override
+				public void onKeyUp(KeyUpEvent event) {
+					if (!FieldVerifier.isValidCpr(cprTxt.getText())) {
+						cprTxt.setStyleName("gwt-TextBox-invalidEntry");
+						cprValid = false;
+					}
+					else {
+						cprTxt.removeStyleName("gwt-TextBox-invalidEntry");
+						cprValid = true;
+					}
+
+					// enable/disable ok depending on form status 
+					if (idValid&&nameValid&&iniValid&&cprValid&&passValid)
+						t.setWidget(eventRowIndex, 5, ok);
+					else
+						t.setText(eventRowIndex, 5, "ok");
+				}
+
+			});
+			
+			passTxt.addKeyUpHandler(new KeyUpHandler(){
+
+				@Override
+				public void onKeyUp(KeyUpEvent event) {
+					if (!FieldVerifier.isValidPass(passTxt.getText())) {
+						passTxt.setStyleName("gwt-TextBox-invalidEntry");
+						passValid = false;
+					}
+					else {
+						passTxt.removeStyleName("gwt-TextBox-invalidEntry");
+						passValid = true;
+					}
+
+					// enable/disable ok depending on form status 
+					if (idValid&&nameValid&&iniValid&&cprValid&&passValid)
+						t.setWidget(eventRowIndex, 5, ok);
+					else
+						t.setText(eventRowIndex, 5, "ok");
+				}
+
+			});
+			
+			
 
 			// showing ok and cancel widgets
 			t.setWidget(eventRowIndex, 5 , ok);

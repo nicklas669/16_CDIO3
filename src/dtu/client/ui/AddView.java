@@ -130,7 +130,7 @@ public class AddView extends Composite {
 
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				if (!FieldVerifier.isValidAge(iniTxt.getText())) {
+				if (!FieldVerifier.isValidInitials(iniTxt.getText())) {
 					iniTxt.setStyleName("gwt-TextBox-invalidEntry");
 					ageValid = false;
 				}

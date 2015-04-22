@@ -30,11 +30,11 @@ public class DeleteView extends Composite {
 
 		t = new FlexTable();
 		t.getFlexCellFormatter().setWidth(0, 0, "50px");
-		t.getFlexCellFormatter().setWidth(0, 1, "150px");
+		t.getFlexCellFormatter().setWidth(0, 1, "170px");
 		t.getFlexCellFormatter().setWidth(0, 2, "15px");
-		t.getFlexCellFormatter().setWidth(0, 3, "150px");
-		t.getFlexCellFormatter().setWidth(0, 4, "100px");
-
+		t.getFlexCellFormatter().setWidth(0, 3, "100px");
+		t.getFlexCellFormatter().setWidth(0, 4, "70px");
+		
 		t.addStyleName("FlexTable");
 		t.getRowFormatter().addStyleName(0,"FlexTable-Header");
 

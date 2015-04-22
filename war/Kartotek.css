@@ -28,7 +28,7 @@ nav {
 }
 
 section {
-	width: 350px;
+	width: 550px;
 	float: left;
 	padding: 10px;
 }
@@ -48,6 +48,7 @@ footer {
 	border-right: thin solid #111111;
 	border-bottom: thin solid #111111;
 	table-layout: fixed;
+	text-align: center;
 	/* width: 400px; */
 }
 
