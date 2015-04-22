@@ -28,18 +28,21 @@ public class AddView extends Composite {
 	Label iniLbl;
 	Label cprLbl;
 	Label passLbl;
-	
+
 	TextBox idTxt;
 	TextBox nameTxt;
 	TextBox iniTxt;
 	TextBox cprTxt;
 	TextBox passTxt;
-//	Button save = new Button("Tilf\u00F8j");
+	//	Button save = new Button("Tilf\u00F8j");
 	Button save;
 
-	// valid fields
-	boolean ageValid = false;
+	// valid fields - initially a field is false
+	boolean idValid = false;
 	boolean nameValid = false;
+	boolean iniValid = false;
+	boolean cprValid = false;
+	boolean passValid = false;
 
 	public AddView(final IOperatoerDAO iOperatoerDAO) {
 		this.iOperatoerDAO = iOperatoerDAO;
@@ -61,7 +64,7 @@ public class AddView extends Composite {
 		idTxt.setHeight("1em");
 		idPanel.add(idLbl);
 		idPanel.add(idTxt);
-		
+
 		nameLbl = new Label("Navn:");
 		nameLbl.setWidth("70px");
 		nameTxt = new TextBox();
@@ -72,23 +75,23 @@ public class AddView extends Composite {
 		iniLbl = new Label("Initialer:");
 		iniLbl.setWidth("70px");
 		iniTxt = new TextBox();
-//		iniTxt.setWidth("5em");
+		//		iniTxt.setWidth("5em");
 		iniTxt.setHeight("1em");
 		iniPanel.add(iniLbl);
 		iniPanel.add(iniTxt);
-		
+
 		cprLbl = new Label("CPR:");
 		cprLbl.setWidth("70px");
 		cprTxt = new TextBox();
-//		cprTxt.setWidth("5em");
+		//		cprTxt.setWidth("5em");
 		cprTxt.setHeight("1em");
 		cprPanel.add(cprLbl);
 		cprPanel.add(cprTxt);
-		
+
 		passLbl = new Label("Password:");
 		passLbl.setWidth("70px");
 		passTxt = new TextBox();
-//		passTxt.setWidth("5em");
+		//		passTxt.setWidth("5em");
 		passTxt.setHeight("1em");
 		passPanel.add(passLbl);
 		passPanel.add(passTxt);
@@ -108,6 +111,23 @@ public class AddView extends Composite {
 
 
 		// register event handlers
+		idTxt.addKeyUpHandler(new KeyUpHandler(){
+
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (!FieldVerifier.isValidID(idTxt.getText())) {
+					idTxt.setStyleName("gwt-TextBox-invalidEntry");
+					idValid = false;
+				}
+				else {
+					idTxt.removeStyleName("gwt-TextBox-invalidEntry");
+					idValid = true;
+				}
+				checkFormValid();
+			}
+
+		});
+
 		nameTxt.addKeyUpHandler(new KeyUpHandler(){
 
 			@Override
@@ -120,7 +140,6 @@ public class AddView extends Composite {
 					nameTxt.removeStyleName("gwt-TextBox-invalidEntry");
 					nameValid = true;
 				}
-
 				checkFormValid();
 			}
 
@@ -132,17 +151,52 @@ public class AddView extends Composite {
 			public void onKeyUp(KeyUpEvent event) {
 				if (!FieldVerifier.isValidInitials(iniTxt.getText())) {
 					iniTxt.setStyleName("gwt-TextBox-invalidEntry");
-					ageValid = false;
+					iniValid = false;
 				}
 				else {
 					iniTxt.removeStyleName("gwt-TextBox-invalidEntry");
-					ageValid = true;
+					iniValid = true;
+				}
+				checkFormValid();
+			}
+
+		});
+
+		cprTxt.addKeyUpHandler(new KeyUpHandler(){
+
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (!FieldVerifier.isValidCpr(cprTxt.getText())) {
+					cprTxt.setStyleName("gwt-TextBox-invalidEntry");
+					cprValid = false;
+				}
+				else {
+					cprTxt.removeStyleName("gwt-TextBox-invalidEntry");
+					cprValid = true;
 				}
 				checkFormValid();
 			}
 
 		});
 		
+		passTxt.addKeyUpHandler(new KeyUpHandler(){
+
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (!FieldVerifier.isValidPass(passTxt.getText())) {
+					passTxt.setStyleName("gwt-TextBox-invalidEntry");
+					passValid = false;
+				}
+				else {
+					passTxt.removeStyleName("gwt-TextBox-invalidEntry");
+					passValid = true;
+				}
+				checkFormValid();
+			}
+
+		});
+
+
 		addPanel.add(idPanel);
 		addPanel.add(namePanel);
 		addPanel.add(iniPanel);
@@ -154,7 +208,7 @@ public class AddView extends Composite {
 	}
 
 	private void checkFormValid() {
-		if (ageValid && nameValid)
+		if (idValid&&nameValid&&iniValid&&cprValid&&passValid)
 			save.setEnabled(true);
 		else
 			save.setEnabled(false);
